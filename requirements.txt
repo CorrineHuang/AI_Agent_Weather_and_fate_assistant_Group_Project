@@ -1,16 +1,21 @@
-# Flask web framework
-Flask==3.0.0
-Flask-Cors==4.0.0  # Enables cross-origin requests
+# PyTorch (CPU version, change to GPU version if needed)
+torch==2.2.0  # Install latest stable version
+torchvision==0.17.0  # For vision-related models (optional)
+torchaudio==2.2.0  # For audio processing (optional)
 
-# DeepSeek AI model dependencies
-transformers==4.36.2  # Hugging Face Transformers library
-torch==2.1.0  # PyTorch for model inference
-sentencepiece==0.1.99  # Required for some tokenizers
-accelerate==0.25.0  # Helps optimize model performance
+# Hugging Face Transformers & Optimization Libraries
+transformers==4.36.2  # Hugging Face Transformers
+accelerate==0.25.0  # Optimizes model execution
+bitsandbytes==0.41.1  # Enables 4-bit quantization
 
-# Optional - If you need a frontend server
-gunicorn==21.2.0  # WSGI server for Flask deployment
+# Tokenization Dependencies
+sentencepiece==0.1.99  # Needed for some tokenizers
+protobuf==3.20.3  # Avoids protobuf version conflicts
 
-# Data handling and utility libraries
-numpy==1.26.2  # Numerical computations
-pandas==2.1.4  # Data analysis (if needed)
+# Core Libraries
+numpy==1.23.5  # Stable version for PyTorch compatibility
+scipy==1.11.4  # Required for some transformers functions
+
+# Optional: If using CUDA (GPU)
+# Comment this out if using CPU-only
+# torch==2.2.0+cu118 torchvision==0.17.0+cu118 torchaudio==2.2.0+cu118 --index-url https://download.pytorch.org/whl/cu118
