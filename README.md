@@ -1,1 +1,1 @@
-# Weather and fate assistant
+Weather and fate assistant
