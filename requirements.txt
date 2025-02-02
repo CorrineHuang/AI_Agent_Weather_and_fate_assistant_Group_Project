@@ -1,0 +1,16 @@
+# Flask web framework
+Flask==3.0.0
+Flask-Cors==4.0.0  # Enables cross-origin requests
+
+# DeepSeek AI model dependencies
+transformers==4.36.2  # Hugging Face Transformers library
+torch==2.1.0  # PyTorch for model inference
+sentencepiece==0.1.99  # Required for some tokenizers
+accelerate==0.25.0  # Helps optimize model performance
+
+# Optional - If you need a frontend server
+gunicorn==21.2.0  # WSGI server for Flask deployment
+
+# Data handling and utility libraries
+numpy==1.26.2  # Numerical computations
+pandas==2.1.4  # Data analysis (if needed)

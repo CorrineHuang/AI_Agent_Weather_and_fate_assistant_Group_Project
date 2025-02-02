@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bazi & Tarot Analysis</title>
+</head>
+<body>
+
+    <h2>Bazi Analysis</h2>
+    <input type="date" id="birthdate">
+    <input type="text" id="birthplace" placeholder="Enter birthplace">
+    <button onclick="analyzeBazi()">Analyze Bazi</button>
+    <p id="bazi_result"></p>
+
+    <h2>Tarot Card Reading</h2>
+    <select id="tarot_card">
+        <option>The Fool</option>
+        <option>The Magician</option>
+        <option>The High Priestess</option>
+        <option>The Empress</option>
+        <option>The Emperor</option>
+        <option>The Lovers</option>
+        <option>The Chariot</option>
+        <option>The Hermit</option>
+        <option>Wheel of Fortune</option>
+    </select>
+    <button onclick="analyzeTarot()">Analyze Tarot Card</button>
+    <p id="tarot_result"></p>
+
+    <script>
+        function analyzeBazi() {
+            let birthdate = document.getElementById("birthdate").value;
+            let birthplace = document.getElementById("birthplace").value;
+
+            fetch("/analyze_bazi", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ birthdate, birthplace })
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("bazi_result").innerText = data.result);
+        }
+
+        function analyzeTarot() {
+            let card = document.getElementById("tarot_card").value;
+
+            fetch("/analyze_tarot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ selected_card: card })
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById("tarot_result").innerText = data.result);
+        }
+    </script>
+
+</body>
+</html>
