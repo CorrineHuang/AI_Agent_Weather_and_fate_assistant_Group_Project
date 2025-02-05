@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazi Analysis Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            overflow: auto; 
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden; 
+            height: 100%;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        /* Tabs styling */
+        .tabs {
+            display: flex;
+            justify-content: space-evenly;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tabs div {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        .tabs div.active {
+            background-color: #007BFF;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .info {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .professional-section {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .professional-section button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .professional-section button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bazi Analysis Result</h1>
+
+    <!-- Tabs for switching between content -->
+    <div class="tabs">
+        <div id="basic-tab" class="active" onclick="switchTab('basic')">Basic</div>
+        <div id="professional-tab" onclick="switchTab('professional')">Professional Analysis</div>
+    </div>
+
+    <!-- Basic Bazi Info Tab Content -->
+    <div id="basic" class="tab-content active">
+        <div class="result">
+            <div class="info">
+                <p><strong>Birthdate:</strong> {{ birth_date }}</p>
+                <p><strong>Gender:</strong> {{ gender }}</p>
+                <p><strong>Zodiac:</strong> {{ zodiac }}</p>
+                <p><strong>Five Element:</strong> {{ five_element }}</p> 
+            </div>
+            <div class="personality analysis">
+                <p><strong>Personality Analysis:</strong></p>
+                <p>{{ analysis }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Bazi Info Tab Content -->
+    <div id="professional" class="tab-content">
+        <div class="professional-section">
+            <p>Professional bazi analysis requires a payment: $5.99</p>
+            <button>Try and Get Professional Analysis</button>
+        </div>
+    </div>
+
+    <a href="/bazi_analysis"><button>Recalculate</button></a>
+</div>
+
+<script>
+    // Function to switch between tabs
+    function switchTab(tabName) {
+        // Remove 'active' class from both tabs and content
+        document.getElementById('basic-tab').classList.remove('active');
+        document.getElementById('professional-tab').classList.remove('active');
+        document.getElementById('basic').classList.remove('active');
+        document.getElementById('professional').classList.remove('active');
+
+        // Add 'active' class to the clicked tab and corresponding content
+        if (tabName === 'basic') {
+            document.getElementById('basic-tab').classList.add('active');
+            document.getElementById('basic').classList.add('active');
+        } else if (tabName === 'professional') {
+            document.getElementById('professional-tab').classList.add('active');
+            document.getElementById('professional').classList.add('active');
+        }
+    }
+</script>
+
+</body>
+</html>
