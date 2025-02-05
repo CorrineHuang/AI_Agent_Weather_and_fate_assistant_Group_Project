@@ -47,6 +47,32 @@
 <body>
 
     <div class="container">
+        <div style="display: flex; align-items: center; gap: 10px;"> 
+            <label for="country-selector" style="font-size: 12px;">Select Country</label>
+            <select id="country-selector" onchange="fetchWeatherData(this.value)">
+                <option value="Singapore" selected>Singapore</option>
+                <option value="China">China</option>
+                <option value="Korea">Korea</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Malaysia">Malaysia</option>
+            </select>
+        </div>
+        <div>
+            <h2>Weather Information</h2>
+            <p id="country"></p>
+            <p id="temperature"></p>
+            <p id="humidity"></p>
+            <p id="air-quality"></p>
+        </div>
+        <div>
+            <h3>Weather Trends</h3>
+            <canvas id="weather-chart"></canvas>
+        </div>
+        <div>
+            <h3>Recommendations</h3>
+            <p id="clothing-recommendation">Clothing: Loading...</p>
+            <p id="food-recommendation">Food: Loading...</p>
+        </div>
         <div class="button-container">
             <!-- 表单1：Bazi分析 -->
             <form action="/bazi_analysis" method="get">
@@ -60,7 +86,35 @@
         </div>
     </div>
     
-
+    <script>
+        // Get weather data
+        async function fetchWeatherData(country) {
+          try {
+            const response = await fetch(`/api/weather?country=${country}`);
+            const data = await response.json();
+      
+            if (data.error) {
+              console.error(data.error);
+              alert(data.error);
+              return;
+            }
+      
+            // update the weather information
+            document.getElementById("country").innerText = `Country: ${data.Country}`;
+            document.getElementById("temperature").innerText = `Temperature: ${data.Temperature}°C`;
+            document.getElementById("humidity").innerText = `Humidity: ${data.Humidity}%`;
+            document.getElementById("air-quality").innerText = `Air Quality: ${data.AirQuality}`;
+      
+            // Plot line chart
+            drawWeatherChart(country);
+          } catch (error) {
+            console.error("Unable to load weather data", error);
+          }
+        }
+      
+        // default loading Singapore's weather
+        fetchWeatherData("Singapore");
+      </script>
 <!--
 <script>
     // Bazi Analysis Button Action
