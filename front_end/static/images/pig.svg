@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140.2 140.2">
+  <defs>
+    <style>
+      .cls-1{opacity:.8}.cls-2{fill:#ffdc00}.cls-3{fill:#f9a11b}.cls-6,.cls-8{stroke:#100733;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.17px}.cls-6{fill:#f06566}.cls-7{fill:#100834}.cls-8{fill:none}
+      svg { cursor: pointer; }
+            .magenta{
+        transition: .3s all ease;
+        opacity: 0;
+        }
+    </style>
+  </defs>
+  <g id="pig">
+    <g id="circle">
+      <g id="circle_half_tone" class="cls-1">
+        <path class="cls-2" d="M20.53 20.53a70.1 70.1 0 0199.14 99.14z"/>
+        <path class="cls-3" d="M119.67 119.67a70.1 70.1 0 01-99.14-99.14z"/>
+      </g>
+      <g id="circle_half_tone-2" data-name="circle_half_tone" class="cls-1">
+        <path class="cls-2" d="M70.1 7.44a62.66 62.66 0 010 125.32z"/>
+        <path class="cls-3" d="M70.1 132.76a62.66 62.66 0 010-125.32z"/>
+      </g>
+      <g id="circle_half_tone-3" data-name="circle_half_tone" class="cls-1">
+        <path class="cls-2" d="M107.29 32.91a52.59 52.59 0 01-74.38 74.38z"/>
+        <path class="cls-3" d="M32.91 107.29a52.59 52.59 0 0174.38-74.38z"/>
+      </g>
+      <circle id="circle-2" data-name="circle" cx="70.1" cy="70.1" r="41.21" fill="#fdcd05"/>
+    </g>
+    <g id="pig-2" data-name="pig">
+      <path id="head" d="M103.87 69.59v-5.14A33.66 33.66 0 0070.2 30.78h0a33.67 33.67 0 00-33.67 33.67h0v5a19.67 19.67 0 00-7.46 15.42h0a19.66 19.66 0 0012.33 18.21 19 19 0 0014.19 6.34h29.22a19.06 19.06 0 0014.3-6.5 19.68 19.68 0 0012-18.12h0a19.61 19.61 0 00-7.24-15.21z" stroke="#100733" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.17" fill="#f7a790"/>
+      <path id="snout" class="cls-6" d="M78.3 73.84H61.88c-2.84 0-4.92 3.49-4.22 7.08l2 10.07a3.33 3.33 0 001.92 2.39 21.2 21.2 0 0017 0A3.34 3.34 0 0080.52 91l2-10.08c.71-3.59-1.37-7.08-4.22-7.08z"/>
+      <g id="nostrils">
+        <ellipse id="nostril2" class="cls-7" cx="65.94" cy="82.05" rx="1.94" ry="3.7"/>
+        <ellipse id="nostril" class="cls-7" cx="74.26" cy="82.05" rx="1.94" ry="3.7"/>
+      </g>
+      <g id="ears">
+        <path id="ear2" class="cls-6" d="M111.24 60.31c-4.39 0-10.11-3.26-10.69-7.49A24.17 24.17 0 00100 50l-.19-.72c-1.48-5.64-6.25-7.7-12-8.43v-2.07h19.79a3 3 0 013 3l2.11 17.06a1.44 1.44 0 01-1.42 1.47z"/>
+        <path id="ear" class="cls-6" d="M29 60.31c4.38 0 10.11-3.26 10.68-7.49a24.54 24.54 0 01.48-2.82l.18-.72c1.49-5.63 6.25-7.7 12-8.43v-2.07H32.59a3 3 0 00-3 3l-2.1 17.06a1.44 1.44 0 001.42 1.47z"/>
+      </g>
+      <g id="mouth">
+        <path id="smile" class="cls-8" d="M86.7 82.73c0 5-7.29 7-16.28 7s-16.92-1.92-16.92-7"/>
+        <path id="mouth_cheek2" data-name="mouth cheek2" class="cls-8" d="M53.5 82.73a3.94 3.94 0 01-5.56 0"/>
+        <path id="mouth_cheek" data-name="mouth cheek" class="cls-8" d="M92.25 82.73a3.93 3.93 0 01-5.55 0"/>
+      </g>
+      <g id="eyes">
+        <path id="eye_smile2" data-name="eye smile2" class="cls-8" d="M45.34 76.3c2.52-1.8 5.59-1.82 6.84 0"/>
+        <path id="eye_smile" data-name="eye smile" class="cls-8" d="M94.86 76.33c-2.52-1.8-5.59-1.82-6.85 0"/>
+      </g>
+    </g>
+  </g>
+    <script>
+      // stub
+      document.querySelector("#pig").addEventListener("click", function () {
+      this.querySelector("#circle").classList.toggle("magenta");
+      });
+    </script>
+</svg>

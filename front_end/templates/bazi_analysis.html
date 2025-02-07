@@ -17,25 +17,38 @@
         .container {
             width: 100%;
             max-width: 600px;
-            text-align: center;
             padding: 20px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
         }
         h1 {
             color: #333;
+            text-align: center;
         }
         .form-group {
             margin-bottom: 15px;
+            display: flex;
+            align-items: center; /* Align label and input vertically */
+            justify-content: center; /* Centering the content inside the form group */
+        }
+        label {
+            width: 30%; /* Set a fixed width for labels */
+            text-align: left; /* Ensure the label text is left-aligned */
+            margin-right: 10px; /* Space between label and input */
+            font-weight: bold; /* Make the label text bold */
+            font-size: 16px
         }
         input, select {
             padding: 10px;
-            width: 100%;
+            width: 50%; /* Adjust the width of inputs and selects to a more appropriate size */
             margin: 5px 0;
             border-radius: 5px;
             border: 1px solid #ccc;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -44,6 +57,9 @@
             color: white;
             border: none;
             border-radius: 5px;
+            width: 82%;
+            margin: 0px auto 0; /* Center the button with margin */
+            display: block; /* Ensure it's a block element */
         }
     </style>
 </head>
@@ -53,7 +69,7 @@
     <h1>Bazi Analysis</h1>
     <form action="/generate_bazi_analysis" method="POST">
         <div class="form-group">
-            <label for="birth_date">Birthdate (YYYY-MM-DD):</label>
+            <label for="birth_date">Birthdate:</label>
             <input type="date" id="birth_date" name="birth_date" required>
         </div>
         <div class="form-group">
@@ -66,7 +82,7 @@
         </div>
         <div class="form-group">
             <label for="birth_place">Place of Birth:</label>
-            <input type="text" id="birth_place" name="birth_place" placeholder="Enter birthplace" required>
+            <input type="text" id="birth_place" name="birth_place" placeholder="City, Country" required>
         </div>
         <button type="submit">Generate Bazi Analysis</button>
     </form>
@@ -74,4 +90,3 @@
 
 </body>
 </html>
-
