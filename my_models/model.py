@@ -1,18 +1,22 @@
 # Google Gemini 
 # AIzaSyCKJTExnt8gIGuzy6Z9EznVKzamlI8own4
 from google import genai
+import re 
 
 def generate_analysis(prompt, api_key="AIzaSyCKJTExnt8gIGuzy6Z9EznVKzamlI8own4"):
     client = genai.Client(api_key= api_key)
     response = client.models.generate_content(
         model="gemini-2.0-flash", contents= prompt
     )
-    return response.text
+    formatted_response = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', response.text)
+    formatted_response = re.sub(r"^(Okay,? here:?|Sure,? here:?|Here.*?:)\s*", "", formatted_response, flags=re.IGNORECASE).strip()
+    return formatted_response
 
 if __name__ =="__main__":
-    prompt =  f"Based on traditional Chinese theories such as the I Ching (Yi Jing), Zhou Yi, and Zi Wei (Purple Star) astrology, if a person's information is female ,birthday 1993-09-07,birthplace is beijing, please provide an analysis of their personality, career prospects, and life advice in 200 words"
+    prompt =  f"Based on traditional Chinese theories such as the I Ching (Yi Jing), Zhou Yi, and Zi Wei (Purple Star) astrology, if a person's information is female ,birthday 1993-09-07,birthplace is beijing, please provide an analysis of their personality, career prospects, and life advice in 200 words. Answers should be straight forward, do not start with Okay,Here."
 
-    result = generate_analysis(prompt)
+    print(generate_analysis(prompt))
+    
 
 
 # This API has a limit .

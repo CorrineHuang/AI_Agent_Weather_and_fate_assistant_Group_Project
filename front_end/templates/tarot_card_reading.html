@@ -81,6 +81,7 @@
             opacity: 0;
             visibility: hidden;
             transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+            white-space: pre-line;
         }
 
         .card-info.show {
@@ -180,7 +181,7 @@
         const cardInfo = document.getElementById('card-info');
         document.getElementById('card-name').textContent = cardName;
         document.getElementById('card-description').textContent = cardDescription;
-        document.getElementById('card-analysis').textContent = cardAnalysis;
+        document.getElementById('card-analysis').innerHTML = cardAnalysis;
         cardInfo.classList.add('show');
     }
 
