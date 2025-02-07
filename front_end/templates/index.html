@@ -47,19 +47,124 @@
 <body>
 
     <div class="container">
+        <div style="display: flex; align-items: center; gap: 10px;"> 
+            <label for="country-selector" style="font-size: 12px;">Select Country</label>
+            <select id="country-selector" onchange="fetchWeatherData(this.value)">
+                <option value="Singapore" selected>Singapore</option>
+                <option value="China">China</option>
+                <option value="Korea">Korea</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Malaysia">Malaysia</option>
+            </select>
+        </div>
+        <div>
+            <h2>Weather Information</h2>
+            <p id="weather-info"></p>
+        </div>
+        <script>
+            const country = "Singapore";
+            const temperature = "30°C";
+            const humidity = "80%";
+            const airQuality = "Good";
+            document.getElementById("weather-info").textContent = 
+                `Country: ${country} | Temperature: ${temperature} | Humidity: ${humidity} | Air Quality: ${airQuality}`;
+        </script>
+        <div>
+            <h3>Weather Trends</h3>
+            <canvas id="weatherChart" style="width: 80%; height: 100px;"></canvas>
+        </div>
+        <div>
+            <h3>Recommendations</h3>
+            <p id="clothing-recommendation">Clothing: Loading...</p>
+            <p id="food-recommendation">Food: Loading...</p>
+        </div>
         <div class="button-container">
             <!-- 表单1：Bazi分析 -->
             <form action="/bazi_analysis" method="get">
                 <button type="submit" class="bazi-btn">Bazi Analysis</button>
             </form>
-            
+
             <!-- 表单2：塔罗牌分析 -->
             <form action="/tarot_card_reading" method="get">
                 <button type="submit" class="tarot-btn">Tarot Card Reading</button>
             </form>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        async function fetchWeatherData(country) {
+            try {
+                const response = await fetch(`/api/weather?country=${country}`);
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                // Update the weather information
+                const weatherInfo = `Country: ${data.Country} | Temperature: ${data.Temperature}°C | Humidity: ${data.Humidity}% | Air Quality: ${data.AirQuality}`;
+                document.getElementById("weather-info").textContent = weatherInfo;
     
+                // Draw the weather trend chart
+                drawWeatherChart(data.timeseries);
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+            }
+        }
+    
+        function drawWeatherChart(timeseries) {
+            const ctx = document.getElementById("weatherChart").getContext("2d");
+            
+            // Destroy any existing chart instance
+            if (window.weatherChart) {
+                window.weatherChart.destroy();
+            }
+    
+            const labels = timeseries.map(entry => entry.Date);
+            const data = timeseries.map(entry => entry.Temperature);
+    
+            // Create a new chart instance
+            window.weatherChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Temperature Trends",
+                        data: data,
+                        borderColor: "blue",
+                        backgroundColor: "rgba(173, 216, 230, 0.4)",
+                        tension: 0.2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: "top"
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Date"
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Temperature (°C)"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    
+        // Load Singapore's weather data by default
+        fetchWeatherData("Singapore");
+    </script>
 
 <!--
 <script>

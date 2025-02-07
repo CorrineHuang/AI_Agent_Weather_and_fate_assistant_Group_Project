@@ -13,6 +13,31 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+# 🟢 Handle Weather Data Request
+@app.route("/api/weather", methods=["GET"])
+def get_weather_data():
+    country = request.args.get("country", "Singapore")
+    try:
+        df = pd.read_excel(csv_file,header=1)
+        data=df.iloc[1:]
+        country_data = data[data["name"] == country]
+        latest_record = country_data.iloc[-1].to_dict()
+        
+        # Get time-series data
+        timeseries = country_data[["datetime", "temp"]].rename(columns={"datetime": "Date", "temp": "Temperature"}).to_dict(orient="records")
+
+        response = {
+            "Country": latest_record["name"],
+            "Date": latest_record["datetime"],
+            "Temperature": latest_record["temp"],
+            "Humidity": latest_record["humidity"],
+            "AirQuality": latest_record["visibility"],
+            "timeseries": timeseries
+        }
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/bazi_analysis', methods=['GET'])
 def bazi_analysis_form():
     return render_template('bazi_analysis.html')
