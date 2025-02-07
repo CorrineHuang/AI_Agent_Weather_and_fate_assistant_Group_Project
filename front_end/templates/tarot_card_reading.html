@@ -66,22 +66,11 @@
             transform: rotateY(180deg);
         }
 
-        .card-name {
-            font-size: 18px;
-            font-weight: bold;
-            transition: transform 0.5s;
-        }
-
-        /* Mirror text for the first flip */
-        .card-name.mirrored {
-            transform: scaleX(-1);
-        }
-
         .card-info {
-            position: fixed; /* Use fixed positioning to center on the screen */
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.15); /* Initial scale and center */
+            transform: translate(-50%, -50%) scale(0.15);
             background-color: #fff;
             color: black;
             padding: 20px;
@@ -89,33 +78,22 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             width: 70%;
             max-width: 400px;
-            opacity: 0; /* Initially hidden */
-            visibility: hidden; /* Hide the element initially */
-            transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease; /* Smooth transition */
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
         }
 
         .card-info.show {
-            opacity: 1; /* Fade in */
-            visibility: visible; /* Make the element visible */
-            transform: translate(-50%, -50%) scale(2); /* Scale to normal size */
-        }
-
-
-        .card-info h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .card-info p {
-            font-size: 12px;
-            margin-bottom: 15px;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .button-container {
             position: absolute;
-            bottom: 50px; /* Set the buttons at the bottom */
+            bottom: 50px;
             left: 50%;
-            transform: translateX(-50%); /* Center horizontally */
+            transform: translateX(-50%);
             display: flex;
             justify-content: space-between;
             gap: 20px;
@@ -142,14 +120,10 @@
 <h1>Tarot Card Reading</h1>
 <div class="container">
     <div class="card-container">
-        <!-- Loop through tarot cards and render each one -->
         {% for card, description in tarot_cards.items() %}
-        <div class="card" onclick="drawCard('{{ card }}', '{{ description }}', '{{ analysis }}', this)">
+        <div class="card" onclick="drawCard('{{ card }}', this)">
             <div class="card-inner">
-                <div class="card-front">
-                    <!-- Initially show 'Click to Draw' -->
-                    Click to Draw
-                </div>
+                <div class="card-front">Click to Draw</div>
                 <div class="card-back">
                     <div class="card-name">{{ card }}</div>
                 </div>
@@ -174,67 +148,44 @@
 </div>
 
 <script>
-    // Pass the tarot cards to the front-end
-    const tarotCards = {{ tarot_cards | tojson }};
-    
-    function drawCard(cardName, cardDescription, cardAnalysis, cardElement) {
+    function drawCard(cardName, cardElement) {
         const cardNameElement = cardElement.querySelector('.card-name');
         const frontElement = cardElement.querySelector('.card-front');
-        
-        // Initially, set the card front text as "Click to Draw"
         frontElement.textContent = "Click to Draw";
-        
-        // Add the mirrored effect on the card name (first flip)
         cardNameElement.classList.add('mirrored');
-
-        // Flip the card (rotateY 180deg)
         cardElement.classList.add('flipped');
 
-        // After the first flip, show the mirrored card name
         setTimeout(() => {
-            // Set the mirrored card name
             cardNameElement.textContent = cardName;
-        }, 500); // Wait for the card to flip
+        }, 500);
 
-        // After another timeout (end of the animation), flip back and show the normal name
         setTimeout(() => {
-            // Flip back and show the normal name (card name on the front)
             cardElement.classList.remove('flipped');
             cardNameElement.classList.remove('mirrored');
-            cardNameElement.textContent = cardName; // Set back to normal name
-
-            // Remove the "Click to Draw" text and show the card name permanently
             frontElement.textContent = cardName;
-            // Now that the card has flipped back, s
-            // et the background to yellow
-            cardElement.style.backgroundColor = '#ffcc00'; // Yellow background
+            cardElement.style.backgroundColor = '#ffcc00';
 
-            // Add a delay before showing the popup dialog
-            setTimeout(() => {
-                // Show the popup dialog with card name, description, and analysis
-                showCardInfo(cardName, cardDescription, cardAnalysis);
-            }, 1500); // Delay the popup by 1 second after card flip
-        }, 1000); // Wait for 1.5 seconds before flipping back
+            fetch(`/tarot_reading/${cardName}`)
+                .then(response => response.json())
+                .then(data => {
+                    showCardInfo(data.card_name, data.card_description, data.analysis);
+                })
+                .catch(error => {
+                    console.error('Error fetching tarot analysis:', error);
+                });
+        }, 1000);
     }
 
     function showCardInfo(cardName, cardDescription, cardAnalysis) {
-        // Show the card info in the popup dialog
         const cardInfo = document.getElementById('card-info');
-        const cardNameElement = document.getElementById('card-name');
-        const cardDescriptionElement = document.getElementById('card-description');
-        const cardAnalysisElement = document.getElementById('card-analysis');
-
-        cardNameElement.textContent = cardName;
-        cardDescriptionElement.textContent = cardDescription;
-        cardAnalysisElement.textContent = cardAnalysis; // A simple placeholder analysis
-
-        // Apply animation to make the dialog appear with a scaling effect
+        document.getElementById('card-name').textContent = cardName;
+        document.getElementById('card-description').textContent = cardDescription;
+        document.getElementById('card-analysis').textContent = cardAnalysis;
         cardInfo.classList.add('show');
     }
 
     function reDrawCard() {
-        // Logic for re-drawing the card
-        location.reload(); // Reload the page to re-draw the cards
+        location.reload();
     }
 </script>
 
