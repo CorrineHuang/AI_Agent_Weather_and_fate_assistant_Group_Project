@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+        }
+        .button-container {
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+        .bazi-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .tarot-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="button-container">
+            <!-- 表单1：Bazi分析 -->
+            <form action="/bazi_analysis" method="get">
+                <button type="submit" class="bazi-btn">Bazi Analysis</button>
+            </form>
+            
+            <!-- 表单2：塔罗牌分析 -->
+            <form action="/tarot_card_reading" method="get">
+                <button type="submit" class="tarot-btn">Tarot Card Reading</button>
+            </form>
+        </div>
+    </div>
+    
+
+<!--
+<script>
+    // Bazi Analysis Button Action
+    function startBaziAnalysis() {
+        alert("Starting Bazi Analysis...");
+        // 在这里添加Bazi Analysis的逻辑，例如跳转到另一个页面或加载特定的内容
+        window.location.href = "/bazi-analysis";  // 示例链接到另一个页面
+    }
+
+    // Tarot Card Reading Button Action
+    function startTarotReading() {
+        alert("Starting Tarot Card Reading...");
+        // 在这里添加Tarot Card Reading的逻辑，例如跳转到另一个页面或加载特定的内容
+        window.location.href = "/tarot-reading";  // 示例链接到另一个页面
+    }
+</script>
+-->
+</body>
+</html>
