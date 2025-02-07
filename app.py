@@ -24,12 +24,11 @@ def generate_bazi_analysis():
 
     if not birthdate or not birthplace:
         return jsonify({"error": "Please provide complete birth details."}), 400
-    # need to change 
     # Calculate Bazi information  
     year_element,year_animal,bazi_info = analyze_bazi(gender, birthdate, birthplace)
     
-    # Generate personality analysis using DeepSeek AI
-    analysis = generate_analysis(f"Based on traditional Chinese theories such as the I Ching (Yi Jing), Zhou Yi, and Zi Wei (Purple Star) astrology, if a person's information is {bazi_info}, please provide an analysis of their personality, career prospects, and life advice in English and in 100 words.Answers should be straight forward, do not start with Okay,Here,sure.")
+    # Generate personality analysis using Google Gemini
+    analysis = generate_analysis(f"Based on traditional Chinese theories such as the I Ching (Yi Jing), Zhou Yi, and Zi Wei (Purple Star) astrology, assume that my information is {bazi_info}, please provide an analysis of their personality, career prospects, and life advice in English and in 100 words.Answers should be straight forward, do not start with Okay,Here,sure.")
 
     return render_template('bazi_analysis_result.html', birth_date=birthdate, gender=gender, zodiac=year_animal, five_element = year_element,analysis=analysis)
 
@@ -56,7 +55,7 @@ def get_card_info(card_name):
 
     tarot_info = analyze_tarot(card_name)
 
-    # Generate detailed Tarot reading using DeepSeek AI
+    # Generate detailed Tarot reading using Google Gemini
     analysis = generate_analysis(f"According to Tarot theory, the card {card_name}: {tarot_info}. Please generate a detailed analysis of love, career, and financial aspects in 10-20 words.Answers should be straight forward, do not start with Okay,Here,sure.")
 
     return jsonify({'card_name': card_name, 'card_description': tarot_info,'analysis': analysis})
