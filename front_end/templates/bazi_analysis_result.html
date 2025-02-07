@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazi Analysis Report</title>
+    <!-- add Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            overflow: auto; 
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden; 
+            height: 100%;
+            overflow-y: auto;
+            align-items: center; 
+        }
+        h1 {
+            color: #333;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-evenly;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            border-radius: 10px 10px 0 0;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tabs div {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        .tabs div.active {
+            background-color: #007BFF;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            height: auto; 
+            max-height: none;
+            overflow: visible;
+            width:90%;
+            justify-content: center;
+            margin-left: auto;  
+            margin-right: auto; 
+        }
+        .info {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .info p {
+            font-size: 18px;
+            display: flex;
+            align-items: center; 
+        }
+
+        .info p img {
+            margin-left: 8px; 
+            vertical-align: middle; 
+        }
+        .row {
+            display: flex;
+            justify-content: space-between ;
+            
+
+        }
+
+        .row p {
+            flex: 1;
+            margin-bottom: 0px;
+            margin-right: 20px;
+            text-align: left;
+            padding-right: 10px;
+            
+        }
+        .row p:first-child {
+            margin-right: 60px;
+        }
+        .personality.analysis p {
+            font-size: 16px; 
+        }
+        /* Tab content specific to Professional Analysis */
+        .professional-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            height: 40vh; 
+            padding: 20px;
+            text-align: center;  
+
+        }
+        .professional-section {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            width:90%;
+        }
+        .professional-section p {
+            font-size: 22px; 
+            font-weight: bold;
+            color: navy;
+            margin-bottom: 30px;
+        }
+        .professional-section button {
+            padding: 10px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 70%;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Horizontally center the button */
+        }
+
+        .professional-section button:hover {
+            background-color: #218838;
+        }
+        .fas {
+            margin-left: 8px;  
+            font-size: 35px;  
+            color: #007BFF; 
+        }
+        .female-icon {
+            color: #ff69b4;  /* pink */
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between; 
+            width: 60%; 
+            margin: 0px auto; 
+        }
+
+        .button-container button {
+            padding: 15px 30px; 
+            font-size: 14px; 
+            width: auto; 
+            border-radius: 5px; 
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #218838; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bazi Analysis Report</h1>
+
+    <!-- Tabs for switching between content -->
+    <div class="tabs">
+        <div id="basic-tab" class="active" onclick="switchTab('basic')">Basic</div>
+        <div id="professional-tab" onclick="switchTab('professional')">Professional Analysis</div>
+    </div>
+
+    <!-- Basic Bazi Info Tab Content -->
+    <div id="basic" class="tab-content active">
+        <div class="result">
+            <div class="info">
+                <div class="row">
+                    <p><strong>Birthdate:&nbsp;</strong> 
+                        <span style="font-weight: normal;">{{ birth_date }}</span></p>
+                    <p><strong>Gender:&nbsp;</strong> 
+                        <span style="font-weight: normal;">{{ gender }}</span>
+                        {% if gender == 'Male' %}
+                            <i class="fas fa-male male-icon"></i> 
+                        {% else %}
+                            <i class="fas fa-female female-icon"></i> 
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="row">
+                    <p><strong>Zodiac:&nbsp;</strong> 
+                        <span style="font-weight: normal;">{{ zodiac }}</span>
+                        {% if zodiac == 'Rat' %}
+                            <img src="{{ url_for('static', filename='images/rat.svg') }}" alt="Rat" width="40" height="40">
+                        {% elif zodiac == 'Ox' %}
+                            <img src="{{ url_for('static', filename='images/ox.jpg') }}" alt="Ox" width="40" height="40">
+                        {% elif zodiac == 'Tiger' %}
+                            <img src="{{ url_for('static', filename='images/tiger.png') }}" alt="Tiger" width="40" height="40">
+                        {% elif zodiac == 'Rabbit' %}
+                            <img src="{{ url_for('static', filename='images/rabbit.jpg') }}" alt="Rabbit" width="40" height="40">
+                        {% elif zodiac == 'Dragon' %}
+                            <img src="{{ url_for('static', filename='images/dragon.png') }}" alt="Dragon" width="40" height="40">
+                        {% elif zodiac == 'Snake' %}
+                            <img src="{{ url_for('static', filename='images/snake.png') }}" alt="Snake" width="40" height="40">
+                        {% elif zodiac == 'Horse' %}
+                            <img src="{{ url_for('static', filename='images/horse.png') }}" alt="Horse" width="40" height="40">
+                        {% elif zodiac == 'Goat' %}
+                            <img src="{{ url_for('static', filename='images/goat.png') }}" alt="Goat" width="40" height="40">
+                        {% elif zodiac == 'Monkey' %}
+                            <img src="{{ url_for('static', filename='images/monkey.png') }}" alt="Monkey" width="40" height="40">
+                        {% elif zodiac == 'Rooster' %}
+                            <img src="{{ url_for('static', filename='images/rooster.svg') }}" alt="Rooster" width="40" height="40">
+                        {% elif zodiac == 'Dog' %}
+                            <img src="{{ url_for('static', filename='images/dog.png') }}" alt="Dog" width="40" height="40">
+                        {% elif zodiac == 'Pig' %}
+                            <img src="{{ url_for('static', filename='images/pig.svg') }}" alt="Pig" width="40" height="40">
+                        {% endif %}
+                    </p>
+                    <p><strong>Five Element:&nbsp;</strong> 
+                        <span style="font-weight: normal;">{{ five_element }}</span>
+                        {% if five_element == 'Metal' %}
+                            <img src="{{ url_for('static', filename='images/metal.jpg') }}" alt="Metal" width="40" height="40">
+                        {% elif five_element == 'Wood' %}
+                        <img src="{{ url_for('static', filename='images/wood.jpg') }}" alt="Wood" width="40" height="40">
+                        {% elif five_element == 'Water' %}
+                        <img src="{{ url_for('static', filename='images/water.jpg') }}" alt="Water" width="40" height="40">
+                        {% elif five_element == 'Fire' %}
+                        <img src="{{ url_for('static', filename='images/fire.jpg') }}" alt="Fire" width="40" height="40">
+                        {% elif five_element == 'Earth' %}
+                        <img src="{{ url_for('static', filename='images/earth.jpg') }}" alt="Earth" width="40" height="40">
+                        {% endif %}
+                    </p> 
+                </div>
+            </div>
+            <div class="personality analysis">
+                <p><strong>Personality Analysis:</strong></p>
+                <p>{{ analysis }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Professional Bazi Info Tab Content -->
+    <div id="professional" class="tab-content">
+        <div class="professional-container">
+            <div class="professional-section">
+                <p>Professional bazi analysis requires a payment: $5.99</p>
+                <button>Try and Get Professional Analysis</button>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <a href="/bazi_analysis">
+            <button>Recalculate</button>
+        </a>
+        <a href="/">
+            <button>Exit</button>
+        </a> 
+    </div>
+</div>
+
+
+
+<script>
+function switchTab(tabName) {
+    // Remove 'active' class from both tabs and content
+    document.getElementById('basic-tab').classList.remove('active');
+    document.getElementById('professional-tab').classList.remove('active');
+    document.getElementById('basic').classList.remove('active');
+    document.getElementById('professional').classList.remove('active');
+
+    // Add 'active' class to the clicked tab and corresponding content
+    if (tabName === 'basic') {
+        document.getElementById('basic-tab').classList.add('active');
+        document.getElementById('basic').classList.add('active');
+    } else if (tabName === 'professional') {
+        document.getElementById('professional-tab').classList.add('active');
+        document.getElementById('professional').classList.add('active');
+    }
+}
+</script>
+
+</body>
+</html>
