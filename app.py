@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
-from models.deepseek_model import generate_analysis
-from backend.bazi_logic import analyze_bazi
-from backend.tarot_logic import analyze_tarot
+from back_end.bazi import analyze_bazi
+from back_end.tarot import analyze_tarot
+from my_models.model import generate_analysis
 import random
 
 app = Flask(__name__)
