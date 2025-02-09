@@ -2,13 +2,50 @@ from flask import Flask, request, jsonify, render_template
 from back_end.bazi import analyze_bazi
 from back_end.tarot import analyze_tarot
 from my_models.model import generate_analysis
+import pandas as pd
+import datetime
 
 app = Flask(__name__,template_folder="front_end/templates",static_folder="front_end/static")
+csv_file ="six countries weather 2025-01-28 to 2025-02-15.xlsx" 
 
 # Frontend
 @app.route("/",methods =["GET","POST"])
 def index():
     return render_template("index.html")
+
+@app.route("/api/weather", methods=["GET"])
+def get_weather_data():
+    country = request.args.get("country", "Singapore")
+    try:
+        df = pd.read_excel(csv_file, header=1)
+        df = df.iloc[1:]
+        df["datetime"] = pd.to_datetime(df["datetime"], errors="coerce")
+        country_data = df[df["name"] == country].copy()
+
+        today = datetime.date.today()
+        today_data = country_data[country_data["datetime"].dt.date == today]
+
+        if today_data.empty:
+            return jsonify({"error": f"No data available for {country} on {today}"}), 404
+
+        latest_record = today_data.iloc[0].to_dict()
+
+        recent_data = country_data.tail(7)
+        timeseries = recent_data[["datetime", "temp"]].dropna().copy()
+        timeseries["datetime"] = timeseries["datetime"].dt.strftime("%m-%d") 
+        timeseries = timeseries.rename(columns={"datetime": "Date", "temp": "Temperature"}).to_dict(orient="records")
+
+        response = {
+            "Country": latest_record["name"],
+            "Date": str(latest_record["datetime"].date()),
+            "Temperature": round(float(latest_record["temp"]), 1),
+            "Humidity": round(float(latest_record["humidity"]), 1),
+            "Visibility": round(float(latest_record["visibility"]), 1),
+            "timeseries": timeseries
+        }
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # Bazi page
 @app.route('/bazi_analysis', methods=['GET'])

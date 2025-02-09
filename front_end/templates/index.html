@@ -42,10 +42,15 @@
             background-color: #ffc107;
             color: black;
         }
+        .weather-chart-container {
+        width: 100%;
+        height: 250px;
+        margin: 20px 0;
+        position: relative;
+    }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div style="display: flex; align-items: center; gap: 10px;"> 
             <label for="country-selector" style="font-size: 12px;">Select Country</label>
@@ -65,14 +70,15 @@
             const country = "Singapore";
             const temperature = "30°C";
             const humidity = "80%";
-            const airQuality = "Good";
+            const visibility = "20";
             document.getElementById("weather-info").textContent = 
-                `Country: ${country} | Temperature: ${temperature} | Humidity: ${humidity} | Air Quality: ${airQuality}`;
+                `Country: ${country} | Temperature: ${temperature} | Humidity: ${humidity} | Air Quality: ${visibility}`;
         </script>
         <div>
             <h3>Weather Trends</h3>
-            <canvas id="weatherChart" style="width: 80%; height: 100px;"></canvas>
-        </div>
+            <div class="weather-chart-container">
+                <canvas id="weatherChart"></canvas>
+            </div>
         <div>
             <h3>Recommendations</h3>
             <p id="clothing-recommendation">Clothing: Loading...</p>
@@ -90,98 +96,94 @@
             </form>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        let weatherChart = null;
+
         async function fetchWeatherData(country) {
             try {
+                console.log(`Fetching weather data for ${country}...`);
                 const response = await fetch(`/api/weather?country=${country}`);
                 const data = await response.json();
+
                 if (data.error) {
-                    alert(data.error);
+                    console.error(data.error);
                     return;
                 }
-                // Update the weather information
-                const weatherInfo = `Country: ${data.Country} | Temperature: ${data.Temperature}°C | Humidity: ${data.Humidity}% | Air Quality: ${data.AirQuality}`;
-                document.getElementById("weather-info").textContent = weatherInfo;
-    
-                // Draw the weather trend chart
-                drawWeatherChart(data.timeseries);
+
+                console.log("Received weather data:", data);
+
+                document.getElementById("weather-info").textContent = 
+                    `Country: ${data.Country} | Temperature: ${data.Temperature}°C | Humidity: ${data.Humidity}% | Visibility: ${data.Visibility}`;
+
+                if (data.timeseries && data.timeseries.length > 0) {
+                    drawWeatherChart(data.timeseries);
+                } else {
+                    console.warn("No weather trend data available");
+                }
             } catch (error) {
                 console.error("Error fetching weather data:", error);
             }
         }
-    
+
         function drawWeatherChart(timeseries) {
             const ctx = document.getElementById("weatherChart").getContext("2d");
             
-            // Destroy any existing chart instance
-            if (window.weatherChart) {
-                window.weatherChart.destroy();
+            if (weatherChart) {
+                weatherChart.destroy();
             }
-    
+
             const labels = timeseries.map(entry => entry.Date);
-            const data = timeseries.map(entry => entry.Temperature);
-    
-            // Create a new chart instance
-            window.weatherChart = new Chart(ctx, {
+            const temperatures = timeseries.map(entry => entry.Temperature);
+
+            weatherChart = new Chart(ctx, {
                 type: "line",
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: "Temperature Trends",
-                        data: data,
-                        borderColor: "blue",
-                        backgroundColor: "rgba(173, 216, 230, 0.4)",
-                        tension: 0.2,
+                        label: "Temperature (°C)",
+                        data: temperatures,
+                        borderColor: "rgb(75, 192, 192)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        tension: 0.3,
                         fill: true
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
+                            position: "top",
+                        },
+                        title: {
                             display: true,
-                            position: "top"
+                            text: "Temperature Trends"
                         }
                     },
                     scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: "Temperature (°C)"
+                            }
+                        },
                         x: {
                             title: {
                                 display: true,
                                 text: "Date"
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: "Temperature (°C)"
                             }
                         }
                     }
                 }
             });
         }
-    
-        // Load Singapore's weather data by default
+
+        // Initial load
         fetchWeatherData("Singapore");
     </script>
-
-<!--
-<script>
-    // Bazi Analysis Button Action
-    function startBaziAnalysis() {
-        alert("Starting Bazi Analysis...");
-        // 在这里添加Bazi Analysis的逻辑，例如跳转到另一个页面或加载特定的内容
-        window.location.href = "/bazi-analysis";  // 示例链接到另一个页面
-    }
-
-            // Tarot Card Reading Button Action
-            function startTarotReading() {
-                alert("Starting Tarot Card Reading...");
-                // 在这里添加Tarot Card Reading的逻辑，例如跳转到另一个页面或加载特定的内容
-                window.location.href = "/tarot-reading";  // 示例链接到另一个页面
-            }
-        </script> -->
-
 </body>
 </html>
+
