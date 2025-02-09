@@ -114,9 +114,9 @@
 
                 console.log("Received weather data:", data);
 
-                document.getElementById("weather-info").textContent = 
-                    `Country: ${data.Country} | Temperature: ${data.Temperature}°C | Humidity: ${data.Humidity}% | Visibility: ${data.Visibility}`;
-
+                document.getElementById("weather-info").textContent = `Country: ${data.Country} | Temperature: ${data.Temperature}°C | Humidity: ${data.Humidity}% | Visibility: ${data.Visibility}`;
+                document.getElementById("clothing-recommendation").textContent = `Clothing: ${data.outfit}`;
+                document.getElementById("food-recommendation").textContent = `Food: ${data.food}`;
                 if (data.timeseries && data.timeseries.length > 0) {
                     drawWeatherChart(data.timeseries);
                 } else {

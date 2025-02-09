@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from back_end.bazi import analyze_bazi
 from back_end.tarot import analyze_tarot
 from my_models.model import generate_analysis
+from back_end.cloth_food import recommend_outfit
 import pandas as pd
 import datetime
 
@@ -29,7 +30,9 @@ def get_weather_data():
             return jsonify({"error": f"No data available for {country} on {today}"}), 404
 
         latest_record = today_data.iloc[0].to_dict()
-
+        temperature = latest_record["temp"]
+        outfit, food = recommend_outfit(temperature)
+        
         recent_data = country_data.tail(7)
         timeseries = recent_data[["datetime", "temp"]].dropna().copy()
         timeseries["datetime"] = timeseries["datetime"].dt.strftime("%m-%d") 
@@ -41,7 +44,9 @@ def get_weather_data():
             "Temperature": round(float(latest_record["temp"]), 1),
             "Humidity": round(float(latest_record["humidity"]), 1),
             "Visibility": round(float(latest_record["visibility"]), 1),
-            "timeseries": timeseries
+            "timeseries": timeseries,
+            "outfit": outfit, 
+            "food": food 
         }
         return jsonify(response)
     except Exception as e:
