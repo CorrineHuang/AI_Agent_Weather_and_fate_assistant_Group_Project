@@ -1,2 +1,4 @@
 openpyxl
 datetime
+flask
+google.genai
