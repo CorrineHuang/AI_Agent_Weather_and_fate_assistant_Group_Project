@@ -6,7 +6,7 @@ Created on Fri Feb  7 21:04:50 2025
 """
 
 def recommend_outfit(temp):
-    if 0 <= temp < 5:
+    if temp < 5:
         outfit = "Thick coat, Sweater"
         food = "Hot soup, Hot chocolate"
     elif 5 <= temp < 10:
