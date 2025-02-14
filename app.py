@@ -33,7 +33,7 @@ def get_weather_data():
         temperature = latest_record["temp"]
         outfit, food = recommend_outfit(temperature)
         
-        recent_data = country_data.tail(7)
+        recent_data = country_data.tail(6)
         timeseries = recent_data[["datetime", "temp"]].dropna().copy()
         timeseries["datetime"] = timeseries["datetime"].dt.strftime("%m-%d") 
         timeseries = timeseries.rename(columns={"datetime": "Date", "temp": "Temperature"}).to_dict(orient="records")
