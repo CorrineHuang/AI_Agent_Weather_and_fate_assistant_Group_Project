@@ -1,10 +1,9 @@
 # Google Gemini 
-# AIzaSyCKJTExnt8gIGuzy6Z9EznVKzamlI8own4
 from google import genai
 import re 
 
-def generate_analysis(prompt, api_key="AIzaSyCKJTExnt8gIGuzy6Z9EznVKzamlI8own4"):
-    client = genai.Client(api_key= api_key)
+def generate_analysis(prompt, api_key):
+    client = genai.Client(api_key= [your_api_key:you need to change me here])
     response = client.models.generate_content(
         model="gemini-2.0-flash", contents= prompt
     )
@@ -17,58 +16,3 @@ if __name__ =="__main__":
     prompt =  f"Analyze the personality, career prospects, dominant Five Element (Wu Xing) influences, and fortune for 2025 of a person based on traditional Chinese metaphysics, including the I Ching (Yi Jing), Zhou Yi, Zi Wei Dou Shu (Purple Star Astrology), and the Five Elements. The person's information is female ,birthday 1993-09-07,birthplace is beijing. Provide a concise yet insightful reading within 200 words, avoiding unnecessary introductions or explanations. The response should be written as a single, well-structured paragraph that seamlessly integrates personality traits, career tendencies, Five Element balance, and key opportunities and challenges in 2025, offering meaningful life guidance in a direct and practical manner."
     print(generate_analysis(prompt))
     
-
-
-# This API has a limit .
-# import requests
-# import json
-
-# # For now , it's the API key of kun.
-# def generate_analysis(prompt, api_key="sk-206.1qf2vKdOEVDAF1aNLPUvyGOUGAKqD7lorVh6OuKwzVKTAlZO", model="deepseek-r1"):
-#     """Send a request to the API and return only the generated content."""
-#     url = "https://wcode.net/api/gpt/v1/chat/completions"
-    
-#     payload = json.dumps({
-#         "model": model,
-#         "messages": [
-#             {"role": "system", "content": "You are a helpful assistant."},
-#             {"role": "user", "content": prompt}
-#         ]
-#     })
-    
-#     headers = {
-#         'Content-Type': 'application/json',
-#         'Authorization': f'Bearer {api_key}' 
-#     }
-    
-#     response = requests.post(url, headers=headers, data=payload)
-    
-#     if response.status_code == 200:
-#         return response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
-#     else:
-#         return "Error: Request failed with status code " + str(response.status_code)
-
-# if __name__ =="__main__":
-#     api_key = "sk-206.1qf2vKdOEVDAF1aNLPUvyGOUGAKqD7lorVh6OuKwzVKTAlZO" 
-#     prompt = "Hello, who are you?"
-#     result = generate_analysis(prompt, api_key)
-#     print(result)
-
-
-# we have no chane to buy deepseek API so that we can use deepseek.
-# from openai import OpenAI
-
-# client = OpenAI(api_key="", base_url="https://api.deepseek.com")
-
-# response = client.chat.completions.create(
-#     model="deepseek-chat",
-#     messages=[
-#         {"role": "system", "content": "You are a helpful assistant"},
-#         {"role": "user", "content": "Hello"},
-#     ],
-#     stream=False
-# )
-
-# print(response.choices[0].message.content)
-
-
