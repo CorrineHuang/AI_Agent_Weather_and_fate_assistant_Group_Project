@@ -51,11 +51,8 @@ git clone https://github.com/CorrineHuang/Weather_and_fate_assistant_Group_Proje
 cd Weather_and_fate_assistant_Group_Project
 ```
 
-### 2. (Optional) Create a Virtual Environment
-
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+### 2. Get and put you API key in Model.py
+The place is [your_api_key:you need to change me here]
 ```
 
 ### 3. Install Dependencies
